@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>打蚊子遊戲</title>
+        <link rel="icon" href="images/mosquito.png">
+        <meta content="Andy Chang;打蚊子遊戲">
+        <meta charset="utf-8">
+    </head>
+    <body align="center" style="background-image:url('images/sky.jpeg');background-repeat: no-repeat;background-size:100% 100%;background-attachment: fixed">
+        <div style="background-color:Lightblue;">	
+            <h3 title="1.目標怪物出現點擊牠，即可得分。
+2.注意如果非目標怪物被擊殺，遊戲會直接結束!">
+            遊戲說明</h3>		
+			<table align="center">
+				<tr>
+					<th>怪物樣子</th>
+					<td><img src="images/mosquito.png" style="width:24px;height:24px;"></img></td>
+					<td><img src="images/bee.png" style="width:24px;height:24px;"></img></td>
+				</tr>
+				<tr>
+					<th>擊殺目標</th>
+					<td>⭕</td>
+					<td>❌</td>
+				</tr>
+			</table>
+            <h3>遊戲難度</h3>
+            <form id="whichlevel">
+                <input type="radio" name="level" value="easy"><a style="color: green;">簡單</a>
+				<input type="radio" name="level" value="normal" checked><a style="color: blue;">普通</a>
+				<input type="radio" name="level" value="hard"><a style="color: red;">困難</a>
+            </form>
+            <button onclick="start()">開始遊戲</button>
+            <button onclick="refresh()">重新一局</button>
+			<br><a id="score">目前分數：0</a>
+			<a id="time">剩餘時間：60</a>
+        </div>
+        <div>
+            <img id="demo1"></img>
+            <img id="demo2"></img>
+            <img id="demo3"></img>
+            <img id="demo4"></img>
+			<map name="workmap1">
+				<area shape="circle" coords="0,0,100" onclick="hit1()">
+			</map>
+			<map name="workmap2">
+				<area shape="circle" coords="0,0,100" onclick="hit2()">
+			</map>
+			<map name="workmap3">
+				<area shape="circle" coords="0,0,100" onclick="hit3()">
+			</map>
+			<map name="workmap4">
+				<area shape="circle" coords="0,0,100" onclick="hit4()">
+			</map>
+			<map name="workmap5">
+				<area shape="circle" coords="0,0,100" onclick="hit5()">
+			</map>
+        </div>
+        <script>
+			function getRandom(min,max)
+			{
+                return Math.floor(Math.random()*(max-min+1))+min;
+			}
+            var count = 60;
+			var click = false;
+			function start()
+			{
+				if (click==false)
+				{
+					var timer=null;
+					timer=setInterval
+					(
+						function ()
+						{
+							if (count > 0)
+							{
+								count=count - 1;
+								document.getElementById("time").innerHTML="剩餘時間："+count;
+								var randomimg1 = getRandom(0,1);
+								var randomimg2 = getRandom(0,1);
+								var randomimg3 = getRandom(0,1);
+								var randomimg4 = getRandom(0,1);
+								if (randomimg1==0)
+								{
+									document.getElementById("demo1").src="images/mosquito.png";
+									document.getElementById("demo1").useMap="#workmap1";
+								}
+								else
+								{
+									document.getElementById("demo1").src="images/bee.png"
+									document.getElementById("demo1").useMap="#workmap5";
+								}
+								if (randomimg2==0)
+								{
+									document.getElementById("demo2").src="images/mosquito.png";
+									document.getElementById("demo2").useMap="#workmap2";
+								}
+								else
+								{
+									document.getElementById("demo2").src="images/bee.png"
+									document.getElementById("demo2").useMap="#workmap5";
+								}
+								if (randomimg3==0)
+								{
+									document.getElementById("demo3").src="images/mosquito.png";
+									document.getElementById("demo3").useMap="#workmap3";
+								}
+								else
+								{
+									document.getElementById("demo3").src="images/bee.png"
+									document.getElementById("demo3").useMap="#workmap5";
+								}
+								if (randomimg4==0)
+								{
+									document.getElementById("demo4").src="images/mosquito.png";
+									document.getElementById("demo4").useMap="#workmap4";
+								}
+								else
+								{
+									document.getElementById("demo4").src="images/bee.png"
+									document.getElementById("demo4").useMap="#workmap5";
+								}
+								var level=document.getElementById("whichlevel").elements["level"].value;
+								if ( level=="easy") 
+								{
+									document.getElementById("demo1").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo2").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo3").style="display:none;"
+									document.getElementById("demo4").style="display:none;"
+								}
+								if ( level=="normal") 
+								{
+									document.getElementById("demo1").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo2").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo3").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo4").style="display:none;"
+								}
+								if ( level=="hard") 
+								{
+									document.getElementById("demo1").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo2").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo3").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+									document.getElementById("demo4").style="width:40px;height:40px;margin:"+Math.ceil(Math.random()*15)+"% "+Math.ceil(Math.random()*40)+"% "+"auto "+Math.ceil(Math.random()*40)+"%";
+								}
+							}
+							else 
+							{
+								document.getElementById("demo1").style="display:none;"
+								document.getElementById("demo2").style="display:none;"
+								document.getElementById("demo3").style="display:none;"
+								document.getElementById("demo4").style="display:none;"
+								document.getElementById("score").innerHTML="你得到"+n+"分，遊戲結束!";
+								clearInterval(timer);
+							}
+						}
+					, 1000)
+				}
+				click = true;
+            }
+			var n = 0;
+			function hit1()
+			{
+                document.getElementById("demo1").src="images/blood.png";
+                updateDisplay();
+            }
+			function hit2()
+			{
+                document.getElementById("demo2").src="images/blood.png";
+                updateDisplay();
+            }
+			function hit3()
+			{
+                document.getElementById("demo3").src="images/blood.png";
+                updateDisplay();
+            }
+			function hit4()
+			{
+                document.getElementById("demo4").src="images/blood.png";
+                updateDisplay();
+            }
+			function hit5()
+			{
+                start(count=0);
+            }
+			function updateDisplay() 
+			{
+				n=n+1;
+				document.getElementById("score").innerHTML="目前分數："+n;
+			}
+            function refresh()
+			{
+				window.location.reload();
+			}
+        </script>
+    </body>
+</html>
